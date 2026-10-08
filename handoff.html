@@ -1,0 +1,1299 @@
+<title>حدیث عشق</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --ground:#EFEDE6;
+  --surface:#F8F7F3;
+  --surface-2:#E5E3DA;
+  --ink:#181D1A;
+  --ink-2:#4C544E;
+  --ink-3:#79817A;
+  --line:#D6D3C7;
+  --line-2:#C2BEAF;
+  --accent:#8F6414;
+  --accent-2:#B98F33;
+  --cypress:#2C5A4C;
+  --ok:#316B4A;
+  --warn:#96631F;
+  --crit:#93332F;
+  --crit-bg:#F5E4E1;
+  --ok-bg:#E2EDE5;
+  --warn-bg:#F5EBDA;
+  --shadow:0 1px 2px rgba(24,29,26,.06),0 8px 24px -12px rgba(24,29,26,.16);
+  --mono:ui-monospace,"Cascadia Mono","Consolas","SFMono-Regular",monospace;
+  --fa:"Segoe UI",Tahoma,"Iranian Sans","Vazirmatn",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1312;
+    --surface:#161B19;
+    --surface-2:#1E2421;
+    --ink:#E9E7DE;
+    --ink-2:#A5ABA5;
+    --ink-3:#767D77;
+    --line:#272E2B;
+    --line-2:#39423E;
+    --accent:#D6A845;
+    --accent-2:#8F6C24;
+    --cypress:#6FA894;
+    --ok:#68B189;
+    --warn:#D19E4E;
+    --crit:#D9756D;
+    --crit-bg:#2A1A18;
+    --ok-bg:#152420;
+    --warn-bg:#271F12;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1312;
+  --surface:#161B19;
+  --surface-2:#1E2421;
+  --ink:#E9E7DE;
+  --ink-2:#A5ABA5;
+  --ink-3:#767D77;
+  --line:#272E2B;
+  --line-2:#39423E;
+  --accent:#D6A845;
+  --accent-2:#8F6C24;
+  --cypress:#6FA894;
+  --ok:#68B189;
+  --warn:#D19E4E;
+  --crit:#D9756D;
+  --crit-bg:#2A1A18;
+  --ok-bg:#152420;
+  --warn-bg:#271F12;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;direction:rtl;
+  background:var(--ground);color:var(--ink);
+  font-family:var(--fa);
+  font-size:17px;line-height:1.85;
+  overflow-x:hidden;
+}
+.wrap{max-width:940px;margin:0 auto;padding:0 22px}
+
+/* ── سرآغاز ────────────────────────────────────── */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
+  background:var(--surface)}
+#peaks{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+:root[data-theme="dark"] #peaks{opacity:.42}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #peaks{opacity:.42}}
+.hero-in{position:relative;padding:74px 0 56px}
+.eyebrow{
+  font-size:.72rem;letter-spacing:.16em;color:var(--accent);
+  font-weight:700;margin:0 0 20px;text-transform:uppercase;
+}
+h1{
+  font-size:clamp(2.5rem,7vw,4rem);line-height:1.1;margin:0 0 16px;
+  font-weight:700;letter-spacing:-.015em;text-wrap:balance;
+}
+.lede{font-size:1.16rem;color:var(--ink-2);max-width:56ch;margin:0 0 34px;text-wrap:pretty}
+.pills{display:flex;flex-wrap:wrap;gap:9px}
+.pill{
+  background:var(--ground);border:1px solid var(--line-2);
+  border-radius:999px;padding:6px 15px;font-size:.83rem;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;
+}
+.pill b{color:var(--ink);font-weight:700}
+
+/* ── بخش‌ها ────────────────────────────────────── */
+section{padding:60px 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+h2{
+  font-size:1.62rem;margin:0 0 8px;font-weight:700;letter-spacing:-.01em;
+  text-wrap:balance;
+}
+.sub{color:var(--ink-3);margin:0 0 32px;font-size:.97rem;max-width:62ch}
+h3{font-size:1.06rem;margin:0 0 6px;font-weight:700}
+p{margin:0 0 15px;text-wrap:pretty}
+p:last-child{margin-bottom:0}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+code{
+  font-family:var(--mono);font-size:.85em;direction:ltr;display:inline-block;
+  background:var(--surface-2);padding:1px 6px;border-radius:4px;
+}
+
+/* ── هشدار ─────────────────────────────────────── */
+.alarm{
+  background:var(--crit-bg);border:1px solid var(--crit);
+  border-radius:12px;padding:26px 28px;margin:0 0 8px;
+}
+.alarm h2{color:var(--crit);font-size:1.3rem;margin-bottom:12px;display:flex;
+  align-items:center;gap:11px}
+.alarm .dot{width:9px;height:9px;border-radius:50%;background:var(--crit);
+  flex:none;animation:blink 1.9s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.alarm ol{margin:14px 0 0;padding-inline-start:22px}
+.alarm li{margin-bottom:5px}
+.alarm strong{color:var(--crit)}
+
+/* ── کارت‌ها ───────────────────────────────────── */
+.grid{display:grid;gap:15px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(268px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(196px,1fr))}
+.card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:11px;padding:20px 22px;box-shadow:var(--shadow);
+}
+.card p{font-size:.93rem;color:var(--ink-2);margin:0}
+.card .files{
+  font-family:var(--mono);font-size:.76rem;direction:ltr;text-align:left;
+  color:var(--ink-3);margin-top:12px;padding-top:11px;border-top:1px solid var(--line);
+  line-height:1.7;word-break:break-all;
+}
+.stage{display:flex;align-items:baseline;gap:10px;margin-bottom:7px}
+.stage .n{
+  font-family:var(--mono);font-size:.72rem;color:var(--accent);
+  font-weight:700;flex:none;
+}
+.done{color:var(--ok);font-size:.8rem;font-weight:700;margin-inline-start:auto;flex:none}
+
+/* ── عددها ─────────────────────────────────────── */
+.metric{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:11px;padding:18px 20px;box-shadow:var(--shadow);
+}
+.metric .v{
+  font-size:2rem;font-weight:700;line-height:1.15;color:var(--ink);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.metric .v.good{color:var(--ok)}
+.metric .k{font-size:.85rem;color:var(--ink-3);margin-top:3px}
+
+/* ── جدول ──────────────────────────────────────── */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;
+  border:1px solid var(--line);border-radius:11px;background:var(--surface);
+  box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:520px}
+th,td{padding:12px 16px;text-align:right;border-bottom:1px solid var(--line);
+  vertical-align:top}
+th{
+  background:var(--surface-2);font-weight:700;font-size:.78rem;
+  letter-spacing:.05em;color:var(--ink-2);white-space:nowrap;
+}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{
+  display:inline-block;border-radius:5px;padding:2px 9px;font-size:.76rem;
+  font-weight:700;white-space:nowrap;
+}
+.t-ok{background:var(--ok-bg);color:var(--ok)}
+.t-no{background:var(--crit-bg);color:var(--crit)}
+.t-mid{background:var(--warn-bg);color:var(--warn)}
+
+/* ── یافته‌ها ──────────────────────────────────── */
+.find{
+  border-inline-start:3px solid var(--accent);
+  padding:2px 20px 2px 0;margin-bottom:30px;
+}
+.find:last-child{margin-bottom:0}
+.find h3{color:var(--ink)}
+.find p{font-size:.95rem;color:var(--ink-2)}
+.ba{
+  display:flex;flex-wrap:wrap;gap:0;margin-top:13px;
+  border:1px solid var(--line);border-radius:9px;overflow:hidden;
+  font-variant-numeric:tabular-nums;
+}
+.ba div{flex:1 1 130px;padding:11px 15px;background:var(--surface)}
+.ba div+div{border-inline-start:1px solid var(--line)}
+.ba .lbl{font-size:.75rem;color:var(--ink-3);display:block;margin-bottom:2px}
+.ba .val{font-size:1.16rem;font-weight:700}
+.ba .after .val{color:var(--ok)}
+.ba .before .val{color:var(--ink-3);text-decoration:line-through;
+  text-decoration-thickness:1px}
+
+/* ── فهرست کار ─────────────────────────────────── */
+.steps{list-style:none;padding:0;margin:0;counter-reset:s}
+.steps li{
+  counter-increment:s;position:relative;padding-inline-start:46px;
+  margin-bottom:24px;
+}
+.steps li::before{
+  content:counter(s);position:absolute;inset-inline-start:0;top:1px;
+  width:29px;height:29px;border-radius:50%;
+  background:var(--accent);color:var(--ground);
+  display:grid;place-items:center;font-size:.85rem;font-weight:700;
+  font-family:var(--mono);
+}
+.steps h3{margin-bottom:3px}
+.steps p{font-size:.94rem;color:var(--ink-2);margin:0}
+
+footer{padding:44px 0 60px;color:var(--ink-3);font-size:.9rem;text-align:center}
+footer .fl{font-size:1.5rem;color:var(--cypress);margin-bottom:8px}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  .hero-in{padding:52px 0 42px}
+  section{padding:46px 0}
+  .alarm{padding:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+
+<div class="hero">
+  <canvas id="peaks" aria-hidden="true"></canvas>
+  <div class="hero-in wrap">
+    <p class="eyebrow">تحویل پروژه · مرحله ۱ تا ۷ + نُه خواستهٔ تازه</p>
+    <h1>حدیث عشق</h1>
+    <p class="lede">
+      ربات یابندهٔ نوا. کاربر پاره‌ای از یک مداحی می‌فرستد — آوا، نماهنگ،
+      یا پیوند اینستاگرام — و نسخهٔ کامل از گنجینه یافته و فرستاده می‌شود.
+      موتورش کاملاً لوکال است و به هیچ سرویس بیرونی وابسته نیست.
+    </p>
+    <div class="pills">
+      <span class="pill"><b>۷</b> مرحله، همه انجام‌شده</span>
+      <span class="pill"><b>۱۵٬۹۲۵</b> خط کد</span>
+      <span class="pill"><b>۶۲</b> پروندهٔ پایتون</span>
+      <span class="pill"><b>۷</b> آزمون، همه گذشته</span>
+      <span class="pill"><b>۲۰</b> باگ یافته و رفع‌شده</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <div class="alarm">
+    <h2><span class="dot"></span>پیش از هر کاری: توکن را باطل کنید</h2>
+    <p>
+      توکن ربات شما در دو پروندهٔ «پروژه حدیث عشق .md» و «تلاش اخر.txt»
+      به شکل متن ساده نوشته شده. <strong>هرکس آن دو پرونده را دیده باشد،
+      می‌تواند ربات را در دست بگیرد</strong> — پیام‌های کاربران را بخواند،
+      از سوی شما پیام بفرستد، و کانال را به هم بریزد.
+    </p>
+    <p>پاک کردن از پرونده کافی نیست؛ توکن باید باطل شود:</p>
+    <ol>
+      <li>در تلگرام به <code>@BotFather</code> بروید</li>
+      <li><code>/mybots</code> ← ربات خود را برگزینید</li>
+      <li><code>API Token</code> ← <code>Revoke current token</code></li>
+      <li>توکن تازه را در <code>.env</code> بنشانید</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2>آنچه ساخته شد</h2>
+  <p class="sub">
+    هفت مرحله، هر کدام ساخته و پیش از رفتن به مرحلهٔ بعد آزموده شد.
+  </p>
+  <div class="grid g2">
+
+    <div class="card">
+      <div class="stage"><span class="n">۰۱</span><h3>اسکلت</h3><span class="done">✓</span></div>
+      <p>
+        پیکربندی با اعتبارسنجی شناسه‌ها، پایگاه دادهٔ SQLite با ۱۱ جدول،
+        هنجارسازی پارسی، گنجینهٔ نوشتار جدا از کد، و پیش‌پرواز که ایرادهای
+        برپایی را همان لحظهٔ اجرا می‌گیرد.
+      </p>
+      <div class="files">config.py · core/normalize.py · core/texts.py · core/db/schema.sql</div>
+    </div>
+
+    <div class="card">
+      <div class="stage"><span class="n">۰۲</span><h3>جریان کاربری</h3><span class="done">✓</span></div>
+      <p>
+        آستانهٔ ورود، منو، پیشکش نوا با داوری گردانندگان، نقد و انتقادات با
+        قفل پاسخ‌گویی، کیسهٔ سکه، و همگانی‌رسانی تدریجی.
+      </p>
+      <div class="files">bot/handlers/{start,menu,tokens,submission,feedback,admin}.py</div>
+    </div>
+
+    <div class="card">
+      <div class="stage"><span class="n">۰۳</span><h3>موتور اثر انگشت</h3><span class="done">✓</span></div>
+      <p>
+        قلب پروژه. الگوریتم نشانه‌ای در numpy، بی هیچ کتابخانهٔ بیرونی.
+        تطبیق بر پایهٔ هم‌راستایی فاصله، نه شمردن عددهای مشترک — و همین
+        است که صفر خطا می‌دهد.
+      </p>
+      <div class="files">core/audio/{decode,fingerprint,matcher}.py · worker/queue.py</div>
+    </div>
+
+    <div class="card">
+      <div class="stage"><span class="n">۰۴</span><h3>اینستاگرام</h3><span class="done">✓</span></div>
+      <p>
+        فرو گرفتن با yt-dlp، سنجش میزبان در برابر نشانی جعلی، و ترجمهٔ هر
+        گونه شکست به پیامی راهنما با مسیر جایگزین.
+      </p>
+      <div class="files">services/instagram.py</div>
+    </div>
+
+    <div class="card">
+      <div class="stage"><span class="n">۰۵</span><h3>جست‌وجوی متنی و درون‌خطی</h3><span class="done">✓</span></div>
+      <p>
+        در سند نبود ولی افزوده شد: بسیاری از کاربران هیچ پاره‌ای ندارند و
+        تنها نام مداح را به یاد دارند. حالت درون‌خطی هم نیرومندترین اهرم
+        گسترش است.
+      </p>
+      <div class="files">bot/handlers/inline_query.py</div>
+    </div>
+
+    <div class="card">
+      <div class="stage"><span class="n">۰۶</span><h3>برچسب، جلد، پشتیبان، کرالر</h3><span class="done">✓</span></div>
+      <p>
+        برچسب ID3 و جلد با لوگو و نام مداح، پشتیبان شبانه با نام‌گذاری
+        شمسی، و کرالر تارنماها با پاس‌داشت robots.txt.
+      </p>
+      <div class="files">services/{tagger,backup,crawler}.py</div>
+    </div>
+
+    <div class="card">
+      <div class="stage"><span class="n">۰۷</span><h3>فهم مداحی</h3><span class="done">✓</span></div>
+      <p>
+        لایهٔ دوم: وقتی اثر انگشت چیزی نیافت، از خودِ آوا می‌فهمد چه
+        کسی می‌خواند و در چه سبکی. ۴۲ بُعد نشان آوا، ۱۴ بُعد نشان
+        سبک، و تصویر جداسازی که واریانس درون‌کلاسی را خنثی می‌کند.
+      </p>
+      <div class="files">core/audio/{features,classifier}.py · core/db/features_store.py</div>
+    </div>
+
+    <div class="card">
+      <div class="stage"><span class="n">۰۸</span><h3>گردآوری گنجینه</h3><span class="done">✓</span></div>
+      <p>
+        کارهای گردانندگان در گروه مداحی: افزودن انبوه، پر کردن بازجویی‌های
+        ناکام با قفل، و اعتماد به همراهانی که پیشکششان دیگر داوری
+        نمی‌خواهد.
+      </p>
+      <div class="files">bot/handlers/curation.py</div>
+    </div>
+
+    <div class="card">
+      <div class="stage"><span class="n">◇</span><h3>آزمون‌ها</h3><span class="done">✓</span></div>
+      <p>
+        هفت آزمون که هیچ‌کدام به تلگرام پیوند نمی‌گیرند — پس پیش از هر
+        بارگذاری آزادانه اجرا می‌شوند. آزمون دود ۲۱ گام دارد و همهٔ
+        جریان‌های کاربر و گرداننده را می‌راند.
+      </p>
+      <div class="files">tests/{smoke,engine,pipeline,comprehension}_test.py · tests/consistency.py</div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2>عددهای سنجیده</h2>
+  <p class="sub">
+    این‌ها از اجرای واقعی آزمون‌ها به دست آمده‌اند، نه برآورد.
+  </p>
+
+  <div class="grid g3" style="margin-bottom:15px">
+    <div class="metric"><div class="v good">۱۰۰٪</div><div class="k">پارهٔ ۱۰ ثانیه، آوای پاک</div></div>
+    <div class="metric"><div class="v good">۹۶٪</div><div class="k">همان، در نویز سنگین</div></div>
+    <div class="metric"><div class="v good">صفر</div><div class="k">تطبیق غلط و مثبت کاذب</div></div>
+    <div class="metric"><div class="v">۱۴<span style="font-size:.9rem;font-weight:400"> م.ث</span></div><div class="k">زمان هر بازجویی</div></div>
+    <div class="metric"><div class="v">۱۰۸×</div><div class="k">شتاب نمایه‌سازی</div></div>
+    <div class="metric"><div class="v">~۱<span style="font-size:.9rem;font-weight:400"> گ.ب</span></div><div class="k">گنجینهٔ ۵۰۰۰ نوا</div></div>
+    <div class="metric"><div class="v good">۱۶–۳۱<span style="font-size:.9rem;font-weight:400"> م.ث</span></div><div class="k">درنگ حلقهٔ رویداد زیر ۲۰ بازجویی هم‌زمان</div></div>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>حالت آزموده</th><th>نتیجه</th><th>یادداشت</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>پارهٔ ۱۰ ثانیه، پاک</td><td class="num"><span class="tag t-ok">۱۰۰٪</span></td><td>—</td></tr>
+        <tr><td>پارهٔ ۱۰ ثانیه، نویز ۰dB</td><td class="num"><span class="tag t-ok">۹۶٪</span></td><td>نویز هم‌توان با خود آوا</td></tr>
+        <tr><td>پارهٔ ۵ ثانیه، پاک</td><td class="num"><span class="tag t-mid">۸۸٪</span></td><td>پارهٔ کوتاه ذاتاً دشوارتر است</td></tr>
+        <tr><td>نماهنگ mp4، ۱۵ ثانیه</td><td class="num"><span class="tag t-ok">۱۰۰٪</span></td><td>با استخراج آوا</td></tr>
+        <tr><td>mp3 دوباره‌فشرده در ۳۲k</td><td class="num"><span class="tag t-ok">۱۰۰٪</span></td><td>فشرده‌سازی سنگین دست‌به‌دست</td></tr>
+        <tr><td>آوای استخراج‌شده از نماهنگ</td><td class="num"><span class="tag t-ok">۶ از ۶</span></td><td>زنجیرهٔ کامل ffmpeg</td></tr>
+        <tr><td>نوای بیرون از گنجینه</td><td class="num"><span class="tag t-ok">۰ از ۲۸</span></td><td>هیچ مثبت کاذبی نداد</td></tr>
+        <tr><td>خطای جای‌یابی در نوا</td><td class="num">۰٫۰۷ ثانیه</td><td>میانه</td></tr>
+        <tr><td>بازجویی روی ۲۰ میلیون ردیف</td><td class="num">&lt; ۱ م.ث</td><td>به یمن خوشه‌بندی بر hash</td></tr>
+        <tr><td>شناخت مداح — آزمون سخت</td><td class="num"><span class="tag t-ok">۱۰۰٪</span></td><td>۶ مداح هم‌پوشان، با پژواک و جمعیت</td></tr>
+        <tr><td>شناخت سبک — آزمون سخت</td><td class="num"><span class="tag t-ok">۱۰۰٪</span></td><td>۴ سبک، یکی بی‌وزن</td></tr>
+        <tr><td>جداسازی نشان آوا</td><td class="num">۰٫۳۹۸</td><td>از ۰٫۱۲۴ آغازین — سه برابر</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>سه تصمیمی که تفاوت ساخت</h2>
+  <p class="sub">
+    این‌ها از سنجش به دست آمدند، نه از گمان. هر کدام را آزمودم، عدد گرفتم،
+    و بر پایهٔ عدد تصمیم گرفتم.
+  </p>
+
+  <div class="find">
+    <h3>چگالی نامتقارن — یک‌چهارم فضا، بی از دست دادن دقت</h3>
+    <p>
+      قله‌ها در هر دو سو یکسان می‌مانند، ولی گنجینه با جفت‌های اندک ذخیره
+      می‌شود و بازجویی با جفت‌های پرشمار پرسیده می‌گردد. چون تطبیق تنها
+      می‌خواهد عددهای بازجویی به عددهای ذخیره‌شده بخورند، بازجویی پرجفت
+      همان تطبیق‌ها را می‌یابد.
+    </p>
+    <div class="ba">
+      <div class="before"><span class="lbl">متقارن</span><span class="val">۴٫۰ گ.ب</span></div>
+      <div class="after"><span class="lbl">نامتقارن</span><span class="val">۱٫۰ گ.ب</span></div>
+      <div><span class="lbl">بهای آن</span><span class="val">۱ از ۶۰</span></div>
+    </div>
+  </div>
+
+  <div class="find">
+    <h3>هم‌راستایی فاصله، نه شمردن عددهای مشترک</h3>
+    <p>
+      اگر تنها بشماریم کدام نوا بیشترین عدد مشترک را دارد، نواهای دراز
+      همیشه برنده می‌شوند. نشانهٔ راستین چیز دیگری است: اگر پاره براستی از
+      نوایی بریده شده باشد، <em>همهٔ</em> عددهای مشترک با فاصلهٔ زمانی
+      یکسان جور درمی‌آیند. همین یکسانی است که در هر آزمون، صفر تطبیق غلط
+      داد.
+    </p>
+  </div>
+
+  <div class="find">
+    <h3>نشان آوا باید از میانگین گنجینه کم شود</h3>
+    <p>
+      همهٔ آواهای انسانی یک مؤلفهٔ مشترک بزرگ دارند که ربطی به «چه کسی
+      می‌خواند» ندارد. بی کم کردن آن، همانندی همهٔ جفت‌ها میان ۰٫۹۷ و ۰٫۹۹
+      می‌افتاد — چه از یک مداح چه از دو مداح جدا — و «شاید این‌ها را
+      می‌خواستید» برای هر صوتی نوای تصادفی با «۹۹٪» پیش می‌گذاشت.
+    </p>
+    <div class="ba">
+      <div class="before"><span class="lbl">جداسازی پیشین</span><span class="val">۰٫۰۱۸</span></div>
+      <div class="after"><span class="lbl">پس از اصلاح</span><span class="val">۰٫۲۷۷</span></div>
+      <div><span class="lbl">بهبود</span><span class="val">۱۵ برابر</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>تقویت فهم مداحی</h2>
+  <p class="sub">
+    آزمون پیشین سه مداح با آوای دور از هم داشت — آسان بود. آزمون تازه
+    شش مداح با پایهٔ بسامدی هم‌پوشان دارد، با پژواک مجلس، جواب جمعیت،
+    و بلندی ناهمسان. هر گام روی همین آزمون سنجیده شد.
+  </p>
+
+  <div class="scroll" style="margin-bottom:30px">
+    <table>
+      <thead><tr><th>گام</th><th>مداح</th><th>سبک</th><th>جداسازی آوا</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>نقطهٔ شروع</td>
+          <td class="num">۹۴٪</td><td class="num">۱۰۰٪</td><td class="num">۰٫۱۲۴</td>
+        </tr>
+        <tr>
+          <td>ویژگی‌های پرمایه‌تر</td>
+          <td class="num">۹۸٪</td><td class="num">۱۰۰٪</td><td class="num">۰٫۲۳۹</td>
+        </tr>
+        <tr>
+          <td>تصویر جداساز (LDA)</td>
+          <td class="num">۱۰۰٪</td><td class="num"><span class="tag t-no">۷۵٪</span></td><td class="num">۰٫۲۳۹</td>
+        </tr>
+        <tr>
+          <td>اصلاح اطمینان سبک</td>
+          <td class="num">۱۰۰٪</td><td class="num">۱۰۰٪</td><td class="num">۰٫۲۳۹</td>
+        </tr>
+        <tr>
+          <td><b>زدودن بلوک‌های زیان‌رسان</b></td>
+          <td class="num"><span class="tag t-ok">۱۰۰٪</span></td>
+          <td class="num"><span class="tag t-ok">۱۰۰٪</span></td>
+          <td class="num"><span class="tag t-ok">۰٫۳۹۸</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="find">
+    <h3>رسایی ضربان باید برجستگی باشد، نه بلندی</h3>
+    <p>
+      نخستین پیاده‌سازی، بیشینهٔ خودهم‌بستگی پوشِ آغازه را می‌گرفت. ولی هر
+      آوای کشیده‌ای خودهم‌بستگی بالا دارد — نه به سبب تناوب، بلکه به سبب
+      روند کند. روضه ۰٫۹۴ می‌گرفت و شور ۰٫۸۵؛ وارونهٔ آنچه باید.
+      با سنجش برجستگی نسبت به روند، شکاف روشن شد.
+    </p>
+    <div class="ba">
+      <div class="before"><span class="lbl">روضه، پیش‌تر</span><span class="val">۰٫۹۴</span></div>
+      <div class="after"><span class="lbl">روضه، اکنون</span><span class="val">۰٫۲۲</span></div>
+      <div><span class="lbl">سبک‌های وزن‌دار</span><span class="val">۰٫۸۴–۰٫۹۳</span></div>
+    </div>
+  </div>
+
+  <div class="find">
+    <h3>تصویر جداساز، واریانس درون‌کلاسی را خنثی می‌کند</h3>
+    <p>
+      بردار آوا ابعادی دارد که میان ضبط‌های <em>یک</em> مداح هم
+      پراکنده‌اند: پژواک اتاق، بلندی، حال آن شب. LDA راستایی می‌یابد که
+      پراکندگی میان مداحان را بیشینه و درون هر مداح را کمینه کند —
+      بزرگ‌ترین اهرم دقت وقتی داده کم است. با کمتر از دو مداح یا هشت
+      نمونه خودبه‌خود خاموش می‌ماند و روش ساده‌تری به کار می‌رود.
+    </p>
+  </div>
+
+  <div class="find">
+    <h3>دانش حوزه، جایی که داده کم است</h3>
+    <p>
+      روضه و مناجات آواز آزادند؛ بقیه ضرب دارند. این را نمی‌شود از داده
+      درآورد — دانستنی است. با آوردنش به طبقه‌بند، نوای بی‌وزن دیگر
+      هرگز «شور» گمانه زده نمی‌شود، هر چقدر هم بقیهٔ ویژگی‌هایش نزدیک
+      باشند.
+    </p>
+    <p>
+      ولی همین پالوده یک دام ساخت: وقتی تنها یک نامزد می‌ماند، فرمول
+      اطمینان عدد کوچکی می‌داد و آستانه <em>پاسخِ درست</em> را رد
+      می‌کرد. روضه به‌درستی جدا می‌شد و بعد دور ریخته می‌شد — سبک از
+      ۱۰۰٪ به ۷۵٪ افتاد. اکنون اطمینان از فاصلهٔ رسایی ضربان تا مرز
+      ساخته می‌شود، نه از فاصلهٔ خام.
+    </p>
+  </div>
+</section>
+
+
+<section>
+  <h2>نُه خواستهٔ تازه، پس از نخستین کار واقعی</h2>
+  <p class="sub">
+    ربات یک دور با نواهای راستین آزموده شد. آنچه در پی آمد، از دلِ
+    همان آزمودن درآمد — نه از حدس.
+  </p>
+
+  <div class="grid g2">
+
+    <div class="card">
+      <h3>۱ · گمانه‌زن، هر چه داشت را می‌فرستاد</h3>
+      <p>
+        تنها باگی که به دست کاربر رسید. بازجویی ناکام بود و ربات
+        به‌درستی گفت «نیافتم» — و سپس هر چه در گنجینه داشت را
+        به‌عنوان «شاید این‌ها را می‌خواستید» فرستاد.
+      </p>
+      <p>
+        سه چیز با هم آن را ساخته بودند: <b>هنجارسازی</b> نبود (پس
+        همانندی همه‌چیز میان ۰٫۹۷ و ۰٫۹۹ می‌افتاد و آستانه بی‌اثر
+        بود)، <b>گنجینه خُرد</b> بود (نزدیک‌ترینِ چهار چیزِ نامربوط،
+        باز هم نامربوط است)، و سنجش <b>مطلق</b> بود نه نسبی.
+      </p>
+      <p>
+        هر سه بسته شد؛ و حتی وقتی از هر سه گذشت، <b>هیچ فایلی خودکار
+        فرستاده نمی‌شود</b> — فهرست با دکمه می‌آید و گزینش با کاربر است.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>۲ · همراهان مورد اعتماد</h3>
+      <p>
+        زیر هر پیشکش، در کنار «تأیید» و «رد»، دکمهٔ «🤝 اعتماد».
+        از آن پس پیشکش‌های آن همراه بی داوری به گنجینه می‌روند و گروه
+        تنها آگاهیِ بی‌دکمه می‌گیرد.
+      </p>
+      <p>
+        سنجش تکراری همچنان انجام می‌شود: اعتماد یعنی پریدن از داوری،
+        نه از آن نگهبان — وگرنه راهی برای ستاندن بی‌پایانِ سکه باز
+        می‌ماند.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>۳ · پرسش نام مداح</h3>
+      <p>
+        پیش از جست‌وجو یک‌بار پرسیده می‌شود، و اگر کاربر نگفت و
+        جست‌وجو ناکام ماند، یک‌بار دیگر.
+      </p>
+      <p>
+        هر نامی که بدهد سه کار می‌کند: جست‌وجوی متنیِ رایگان با همان
+        نام، چسبیدن به گزارش ناکامیِ گردانندگان — که <b>تنها سرنخِ
+        یافتن</b> است — و ماندن در دفتر برای <code>/failures</code>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>۴ · کیسهٔ سکه</h3>
+      <p>
+        «توکن» به «سکه» دگرگون شد، ولی نام ستون‌های پایگاه داده
+        دست‌نخورده ماند؛ مهاجرتشان بی‌سود بود و رد داد و ستدهای
+        گذشته را می‌گسست.
+      </p>
+      <p>
+        مهم‌تر: موجودی <b>همیشه</b> دیده می‌شود، حتی وقتی صفر است.
+        پیش‌تر کاربرِ بی‌سکه بازگشت زودهنگام می‌خورد و هیچ عددی
+        نمی‌دید — یعنی درست همان کسی که بیش از همه می‌خواست بداند
+        چه دارد. و اکنون گفته می‌شود سکه چیست، کِی کم می‌شود و کِی نه.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>۵ · افزودن انبوه</h3>
+      <p>
+        <code>/bulk حاج محمود کریمی</code> در گروه مداحی، سپس هر چند
+        نوا که بخواهید پشت سر هم. تکراری‌ها شمرده و رد می‌شوند، نام
+        مداحِ دسته بر همه می‌نشیند، و برچسب و نمایه در پس‌زمینه
+        انجام می‌گیرد.
+      </p>
+      <p>
+        شمارشگر بیش از هر چند ثانیه یک‌بار ویرایش نمی‌شود؛ پنجاه نوای
+        پیاپی یعنی پنجاه ویرایش در چند ثانیه، و تلگرام همان را می‌بندد.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>۶ · آوای نماهنگ، تنها وقتی به کار آید</h3>
+      <p>
+        پیش‌تر آوای استخراجی همیشه فرستاده می‌شد — حتی وقتی نسخهٔ
+        اصلی یافته می‌شد و آن پیام تنها نویزی پیش از پاسخ درست بود.
+      </p>
+      <p>
+        اکنون استخراج می‌شود ولی نمی‌رود؛ تنها اگر نیافتیم، یا اگر
+        کاربر گفت «این آن نیست». دوازده ساعت روی دیسک می‌ماند و کار
+        ساعتی برش می‌دارد؛ اگر دیرتر نواخته شد، از همان فرستادهٔ خودِ
+        کاربر دگربار استخراج می‌شود.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>۷ · بیت شعر، نامِ نوا</h3>
+      <p>
+        پس از نام مداح و سبک، بیتی از شعر پرسیده می‌شود. همان بیت سه
+        جا می‌نشیند: نام فایل، نوشتهٔ روی جلد، و کلیدِ یافتن در
+        جست‌وجوی متنی.
+      </p>
+      <p>
+        نسخهٔ آراسته و بایگانی‌شده هم اکنون به گروه جداگانهٔ خودش
+        می‌رود. شناسهٔ آن گروه با <code>-100</code> آغاز نمی‌شود چون
+        گروه ساده است؛ پیکربندی این را می‌داند و ایراد نمی‌گیرد.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>۸ · بازجویی ناکام، با خودِ کلیپ</h3>
+      <p>
+        پیش‌تر تنها شمارهٔ بازجویی و درازای پاره به گروه می‌رفت —
+        گرداننده نمی‌دانست دنبال چه بگردد. اکنون خودِ صدای کاربر
+        می‌آید، با نامی که گفته بود.
+      </p>
+      <p>
+        زیرش دکمهٔ «📤 نسخهٔ کامل را می‌فرستم». با نواختنش بازجویی
+        <b>قفل</b> می‌شود تا دو گرداننده یک کار را دو بار نکنند؛ سپس
+        نوا به گنجینه می‌رود و هم‌زمان برای همان جوینده فرستاده
+        می‌شود — <b>بی ستاندن سکه</b>، چون بازجویی‌اش ناکام مانده بود
+        و ستاندن اکنون، جریمه کردن او بابت شکیبایی‌اش بود.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="scroll" style="margin-top:1.4rem">
+    <table>
+      <thead><tr><th>آزمون تازه</th><th>چه می‌سنجد</th></tr></thead>
+      <tbody>
+        <tr><td>گام ۱۳ — همراه مورد اعتماد</td><td>پیشکش بی داوری می‌نشیند، گروه آگاهیِ بی‌دکمه می‌گیرد</td></tr>
+        <tr><td>گام ۱۴ — افزودن انبوه</td><td>چهار نوا نشست، یکی تکراری رد شد، نام دسته بر همه نشست</td></tr>
+        <tr><td>گام ۱۵ — پر کردن ناکامی</td><td>قفل کار می‌کند، نوا برای جوینده می‌رود، سکه‌ای ستانده نمی‌شود</td></tr>
+        <tr><td>گام ۱۶ — نگهبان گمانه‌زنی</td><td>بی هنجارسازی و با گنجینهٔ خُرد، هیچ پیشنهادی داده نمی‌شود</td></tr>
+        <tr><td>گام ۱۷ — کیسهٔ سکه</td><td>موجودی صفر هم دیده می‌شود و واژهٔ «توکن» نمانده</td></tr>
+        <tr><td><code>consistency.py</code></td><td>هر کلید نوشتاری که کد صدا می‌زند در YAML هست، و جای‌گاه‌ها می‌خوانند</td></tr>
+        <tr><td><code>load_test.py</code></td><td>۲۰ بازجویی هم‌زمان: قفل نشدن، مهار هم‌زمانی، درستی شمارنده پس از ناکامی و لغو، و نوشتن هم‌زمان بر SQLite</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<section>
+  <h2>لایهٔ سوم: یافتنِ اجرای دیگرِ همان نوحه</h2>
+  <p class="sub">
+    تا امروز همین صفحه می‌گفت این کار شدنی نیست و «کاستیِ ذاتیِ روش»
+    است. درست هم بود — برای اثر انگشت. ولی نه برای هر روشی.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>شکاف چه بود</h3>
+      <p>
+        اثر انگشت تنها <b>همان ضبط</b> را می‌یابد. کاربر پاره‌ای از
+        اجرای زنده می‌فرستد، گنجینه نسخهٔ استودیوییِ همان نوحه را
+        دارد، و هیچ عدد مشترکی پدید نمی‌آید — هرچند گوش انسان هر دو
+        را یک نوا بشمارد.
+      </p>
+      <p>یکی از دو ناکامیِ چهار بازجویی نخستِ شما همین بود.</p>
+    </div>
+
+    <div class="card">
+      <h3>چاره: نشانی که گام و سرعت را می‌بخشد</h3>
+      <p>
+        <b>کروما</b> به جای طیف: طیف می‌گوید «چه بسامدهایی هست»،
+        کروما می‌گوید «کدام یک از دوازده نتِ گام». دو خوانندهٔ جدا
+        اگر یک آهنگ بخوانند، طیفشان یکی نیست ولی کرومایشان هست.
+      </p>
+      <p>
+        سپس هموارسازیِ درازآهنگ (لرزشِ تحریر و نفس می‌رود، خطِ آهنگ
+        می‌ماند)، هنجارسازیِ هر فریم (بلندی صدا بیرون می‌رود)،
+        دوازده چرخشِ گام، و پنج نسبتِ سرعت.
+      </p>
+    </div>
+  </div>
+
+  <div class="find" style="margin-top:1.5rem">
+    <h3>نسبت‌های سرعت — بی آن‌ها لایه کار نمی‌کرد</h3>
+    <p>
+      نخستین پیاده‌سازی تنها گام را می‌بخشید، نه سرعت را. هم‌بستگیِ
+      لغزان <em>جابه‌جاییِ</em> زمانی را می‌بخشد ولی <em>کِششِ</em>
+      زمانی را نه — و مداح هر شب اندکی تندتر یا کندتر می‌خواند.
+    </p>
+    <div class="ba">
+      <div class="before"><span class="lbl">پیش از نسبت‌ها</span><span class="val">۰٫۶۰</span></div>
+      <div class="after"><span class="lbl">پس از آن</span><span class="val">۰٫۸۵</span></div>
+      <div><span class="lbl">نوحهٔ دیگر</span><span class="val">۰٫۵۷</span></div>
+    </div>
+  </div>
+
+  <div class="find">
+    <h3>آستانه‌ای که گمانه‌زدنش نادرست بود</h3>
+    <p>
+      عدد ۰٫۸۶ را گذاشتم، بر این پندار که «کرومای هموارشده ذاتاً
+      هم‌بستگی بالایی می‌دهد». سنجش با ۱۴۴ جفت گفت نادرست است: همان
+      نوحه کمینه ۰٫۷۱ می‌گیرد و نوحهٔ دیگر بیشینه ۰٫۶۸.
+    </p>
+    <p>
+      با آستانهٔ گمانه‌زده، این لایه <b>هرگز</b> چیزی نمی‌گفت. اکنون
+      ۰٫۶۹ است — درست میان دو توزیع، و از سنجش درآمده نه از گمان.
+    </p>
+  </div>
+
+  <div class="find">
+    <h3>و یک باگ که آزمون گرفتش</h3>
+    <p>
+      کمترین شمارِ گنجینه را ۸ گذاشته بودم، به تقلید از لایهٔ رنگ
+      آوا. آزمون با شش نوحه اجرا شد و <b>هیچ‌کدام</b> از ۲۴ اجرا
+      یافته نشد — حال آنکه توزیع‌ها به‌روشنی جدا بودند.
+    </p>
+    <p>
+      تفاوت در جنسِ سنجش است: رنگ آوا <em>نسبی</em> می‌سنجد و به
+      میانگینِ گنجینه نیاز دارد؛ خطِ آهنگ <em>مطلق</em> می‌سنجد و به
+      هیچ نوای سومی وابسته نیست. کمترین شمار اینجا ۳ است، نه ۸.
+    </p>
+  </div>
+
+  <div class="scroll" style="margin-top:1.5rem">
+    <table>
+      <thead><tr><th>سنجه</th><th>نتیجه</th><th>شرایط</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>یافتنِ اجرای دیگر</td>
+          <td class="num"><span class="tag t-ok">۲۴ از ۲۴</span></td>
+          <td>گام تا ۷ نیم‌پرده، سرعت تا ۲۵٪، رنگ آوای دیگر، پژواک، جمعیت</td>
+        </tr>
+        <tr>
+          <td>نوحهٔ نادرست را «همان» شمرد</td>
+          <td class="num"><span class="tag t-ok">صفر</span></td>
+          <td>۱۴۴ جفتِ سنجیده</td>
+        </tr>
+        <tr>
+          <td>شکاف میان دو توزیع</td>
+          <td class="num">+۰٫۰۳۴</td>
+          <td>کمینهٔ درست ۰٫۷۱ · بیشینهٔ نادرست ۰٫۶۸</td>
+        </tr>
+        <tr>
+          <td>اندازهٔ نشان</td>
+          <td class="num">۲۷۶ بایت</td>
+          <td>≈ ۱ مگابایت برای ۵۰۰۰ نوا</td>
+        </tr>
+        <tr>
+          <td>زمان بازجویی</td>
+          <td class="num">~۱۰۰ م.ث</td>
+          <td>با پالودهٔ پیش‌دستی، برای گنجینهٔ بزرگ هم می‌ماند</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="find" style="margin-top:1.5rem">
+    <h3>و آنگاه: آمیختن</h3>
+    <p>
+      سه لایه با هم <b>میانگین گرفته نمی‌شوند</b> — ترتیب دارند، چون
+      یکی می‌داند و دو تا گمان می‌زنند. میانگین گرفتن یعنی گذاشتنِ
+      گمان در برابر دانش.
+    </p>
+    <p>
+      ولی یک جا آمیختن سود می‌دهد، و همان جانِ کار است: شش عددِ اثر
+      انگشتِ هم‌راستا به‌تنهایی بی‌معناست و دور ریخته می‌شد. اگر خطِ
+      آهنگ هم بر <b>همان</b> نوا انگشت بگذارد، دو نشانهٔ مستقل یک چیز
+      می‌گویند — و آن، از هر کدامشان به‌تنهایی بسیار استوارتر است.
+      آنجا لحن از «گمانم این است» به «یافتیم» برمی‌گردد.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>چرا ربات کند بود</h2>
+  <p class="sub">
+    یک شب کار واقعی، پاسخ را روشن داد: کندی از پردازش نبود.
+  </p>
+
+  <div class="grid g3" style="margin-bottom:1.4rem">
+    <div class="metric"><div class="v">۱۷</div><div class="k">برچسب‌گذاریِ ناکام</div></div>
+    <div class="metric"><div class="v">۱۹</div><div class="k">خطای شبکه در ۳۲ دقیقه</div></div>
+    <div class="metric"><div class="v">۵<span style="font-size:.9rem;font-weight:400"> ثانیه</span></div><div class="k">مهلتِ پیش‌فرض PTB</div></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>۱ · مهلت‌ها</h3>
+      <p>
+        پنج ثانیه برای پیوندی که از ایران می‌گذرد، یعنی شکست خوردنِ
+        هر بارگذاری فایل. اکنون ۲۰ ثانیه برای پیوند، ۶۰ برای خواندن،
+        ۱۲۰ برای نوشتن — همه در <code>.env</code> قابل تنظیم، و
+        پروکسی هم پذیرفته است.
+      </p>
+    </div>
+    <div class="card">
+      <h3>۲ · کوشش دوباره</h3>
+      <p>
+        گسستِ گذرا بر این پیوند خطا نیست، وضعِ عادی است. هر کار
+        شبکه‌ای تا سه بار با درنگِ فزاینده آزموده می‌شود. خطای
+        همیشگی — مانند «گفتگو یافت نشد» — بی‌درنگ بالا می‌رود؛
+        آزمودن دوباره‌اش تنها زمان می‌برد.
+      </p>
+    </div>
+    <div class="card">
+      <h3>۳ · مدارشکن</h3>
+      <p>
+        آن هفده ناکامی، هر بار فایلی چندمگابایتی را فرو می‌گرفت،
+        برچسب می‌زد، و آنگاه در بارگذاری شکست می‌خورد. اکنون
+        دسترسیِ گفتگو <b>پیش از</b> فرو گرفتن سنجیده می‌شود و یک بار
+        که ناشدنی شناخته شد، تا ربع ساعت آزموده نمی‌گردد — نه تا
+        بازراه‌اندازی، چون آن گفتگو با <em>افزودن ربات به آن</em>
+        درست می‌شود و کسی که همین حالا افزوده، نباید ناگزیر از
+        بازراه‌اندازی باشد.
+      </p>
+    </div>
+    <div class="card">
+      <h3>۴ · <code>/health</code></h3>
+      <p>
+        این باگ ماه‌ها می‌توانست بماند، چون دیدنش خواندنِ هزار سطر
+        گزارش می‌خواست. اکنون یک فرمان می‌گوید کدام گفتگو در دسترس
+        است، چه مهلت‌هایی به کار می‌روند، و صف چه حالی دارد.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>دفتر پذیرش: یک جریان به جای سه</h2>
+  <p class="sub">
+    خواستهٔ تازه یکی بود — «دکمهٔ تأیید و ویرایش در ثبت مداحی هم
+    باشد» — ولی ریشه‌اش سه جریانِ جدا بود که هیچ‌کدام آن دکمه‌ها را
+    نداشت.
+  </p>
+
+  <div class="grid g3" style="margin-bottom:1.4rem">
+    <div class="metric"><div class="v">۳</div><div class="k">جریان جدا، پیش از این</div></div>
+    <div class="metric"><div class="v">۱</div><div class="k">جریان، اکنون</div></div>
+    <div class="metric"><div class="v">۲۱</div><div class="k">گام آزمون دود</div></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>باگی که کاربر دید</h3>
+      <p>
+        گرداننده «🎁 پیشکش نوا» را می‌زد و سپس نوایی <b>بازمی‌فرستاد</b>
+        — و هیچ پرسشی نمی‌آمد. نوا بی‌صدا و بی‌شناسنامه در گنجینه
+        می‌نشست.
+      </p>
+      <p>
+        علتش یک گردانندهٔ جداگانه بود که پیش از مسیریابِ وضعیت ثبت
+        شده بود و هر نوای بازفرستادهٔ گرداننده را می‌بلعید. برای
+        همراهِ ساده بدتر بود: همان گرداننده خاموش <code>return</code>
+        می‌کرد، پس او <b>هیچ پاسخی</b> نمی‌گرفت.
+      </p>
+    </div>
+    <div class="card">
+      <h3>چرا سه جریان بود</h3>
+      <p>
+        افزودن انبوه شناسنامه را از برچسب ID3 برمی‌داشت — که معمولاً
+        تهی است یا چیزی مانند <code>voice_0032</code>، و همان روی
+        نسخهٔ آراسته می‌نشست. نوای بازفرستاده بی هیچ پرسشی می‌افزود.
+        پر کردن ناکامی می‌پرسید، ولی پاسخ‌ها را بی بازبینی می‌نشاند؛
+        یک غلط تایپی در نام مداح، برای همیشه می‌ماند.
+      </p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.4rem">
+    <h3>اکنون: نوا ← مداح ← سبک ← بیتی از شعر ← شناسنامه</h3>
+    <p>
+      هر سه راه از همین‌جا می‌گذرند. کارت شناسنامه <b>✅ تأیید</b> و
+      <b>✖️ چشم‌پوشی</b> را کنار هم دارد و <b>✏️ ویرایش</b> را زیرشان؛
+      ویرایش، سه بخش را هر کدام در سطر خود می‌آورد با تأیید و لغو
+      زیرشان، و هر بخش دکمهٔ <b>↩️ بازگشت</b> دارد. تا تأیید نشود،
+      هیچ نوایی در گنجینه نمی‌نشیند.
+    </p>
+    <p>
+      <b>و کارت‌ها شماره دارند.</b> تلگرام دکمه‌های پیام کهنه را
+      برنمی‌دارد؛ بی شماره، نواختن بر کارتِ نوای پیشین — که بالاتر
+      در گروه دیده می‌شود — نوای <em>کنونی</em> را تأیید می‌کرد.
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:1.4rem">
+    <h3>بایگانی، این‌بار با ضمانت</h3>
+    <p>
+      ناکامی برچسب‌گذاری بخشیده می‌شد و می‌گذشت. برای <em>یافتنِ</em>
+      نوا درست بود — نوای بی‌برچسب هم یافته می‌شود — ولی یعنی یک شبِ
+      در دسترس نبودنِ گروه بایگانی، چند نوا را <b>برای همیشه</b>
+      بیرون می‌گذاشت، بی‌آنکه کسی بفهمد.
+    </p>
+    <p>
+      اکنون ستون <code>tracks.ornate_at</code> می‌گوید کدام‌ها
+      ننشسته‌اند، کاری دوره‌ای هر ربع ساعت چند تایی را دوباره
+      می‌آزماید، و <code>/health</code> شمارشان را می‌گوید. سرنویس
+      نسخهٔ آراسته هم دیگر تهی نیست: مداح، سبک، نام نوا و شمارهٔ نوا
+      در آن می‌نشیند — کنار همان‌ها که روی خودِ فایل رفته‌اند.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>آنچه سند می‌خواست ولی به آن شکل شدنی نبود</h2>
+  <p class="sub">
+    هشت مورد. برای هر کدام، نزدیک‌ترین چیزِ شدنی ساخته شد.
+  </p>
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>خواستهٔ سند</th><th>چرا نشد</th><th>چه شد</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>سایت‌ها را هنگام بازجویی بگرد</td>
+          <td>هیچ‌کدام «جست‌وجو با صدا» ندارند</td>
+          <td>کرالر که از <em>پیش</em> نمایه می‌کند</td>
+        </tr>
+        <tr>
+          <td>تاریخچهٔ کانال مخزن را بگرد</td>
+          <td>ربات تلگرام به پست‌های گذشته دسترسی ندارد</td>
+          <td>نمایه‌سازی خودکار از این پس + بازفرست دستی</td>
+        </tr>
+        <tr>
+          <td>دکمهٔ اینستاگرام شرط ورود باشد</td>
+          <td>دکمهٔ پیوند هیچ خبری به ربات نمی‌دهد</td>
+          <td>دکمهٔ callback که ضربه را ثبت می‌کند</td>
+        </tr>
+        <tr>
+          <td>تشخیص از «فرکانس ۸۰»</td>
+          <td>اصطلاح نادرست؛ منظور تمپو بوده</td>
+          <td>سنجش تمپو با خطای ۸ ضرب در دقیقه</td>
+        </tr>
+        <tr>
+          <td>کتابخانهٔ Dejavu</td>
+          <td>MySQL می‌خواهد و سال‌هاست رها شده</td>
+          <td>پیاده‌سازی خودمان در numpy، روی SQLite</td>
+        </tr>
+        <tr>
+          <td>aiohttp برای اینستاگرام</td>
+          <td>تنها کتابخانهٔ شبکه است، رمزگشا نیست</td>
+          <td>yt-dlp</td>
+        </tr>
+        <tr>
+          <td>python-telegram-bot v20</td>
+          <td>افکت کانفتی از Bot API 7.10 آمده</td>
+          <td>ارتقا به ۲۱٫۹</td>
+        </tr>
+        <tr>
+          <td>شمار کاربران زیر نام ربات</td>
+          <td>تلگرام چنین جایی ندارد</td>
+          <td>در پیام خوش‌آمد و منو نشان داده می‌شود</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>بیست باگی که پیدا و رفع شد</h2>
+  <p class="sub">
+    همه در آزمون پیدا شدند، نه در کار واقعی — که یعنی هیچ‌کدام به دست
+    کاربران نرسید.
+  </p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>باگ</th><th>پیامدش اگر می‌ماند</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>نوای بازفرستاده، جریان پیشکش را می‌بلعید</td>
+          <td>گرداننده هرگز پرسش‌ها و دکمهٔ تأیید را نمی‌دید — <strong>همان که کاربر گزارش کرد</strong></td>
+        </tr>
+        <tr>
+          <td>همان گرداننده برای ناگرداننده خاموش <code>return</code> می‌کرد</td>
+          <td>همراهِ ساده‌ای که نوایی بازمی‌فرستاد، <strong>هیچ پاسخی</strong> نمی‌گرفت</td>
+        </tr>
+        <tr>
+          <td>ناکامی نسخهٔ آراسته خاموش می‌گذشت و هرگز دوباره آزموده نمی‌شد</td>
+          <td>یک شبِ در دسترس نبودنِ گروه بایگانی = چند نوا برای همیشه بیرون از بایگانی</td>
+        </tr>
+        <tr>
+          <td>نشانِ «این گفتگو ناشدنی است» تا بازراه‌اندازی می‌ماند</td>
+          <td>افزودن ربات به گروه هیچ اثری نداشت تا ربات از نو برخیزد</td>
+        </tr>
+        <tr>
+          <td>قفل پاسخ‌گویی: رشتهٔ <code>'+-5 seconds'</code> در SQLite نامعتبر است و <code>NULL</code> می‌دهد</td>
+          <td>سخن کاربر <strong>برای همیشه</strong> قفل و بی‌پاسخ می‌ماند — همان بن‌بستی که قرار بود رفع شود</td>
+        </tr>
+        <tr>
+          <td>همانندی آوا جداکننده نبود</td>
+          <td>پیشنهاد نوای تصادفی با «۹۹٪ اطمینان» به هر کاربر</td>
+        </tr>
+        <tr>
+          <td>«آب» در جلد به «اب» تبدیل می‌شد</td>
+          <td>هنجارسازیِ ویژهٔ تطبیق، روی نوشتار نمایشی به کار رفته بود</td>
+        </tr>
+        <tr>
+          <td>پایانهٔ ویندوز با cp1252 هیچ نویسهٔ پارسی را نمی‌پذیرفت</td>
+          <td>برنامه روی نخستین چاپ از پا می‌افتاد</td>
+        </tr>
+        <tr>
+          <td><code>VACUUM</code> درون تراکنش</td>
+          <td>پشتیبان‌گیری همیشه با خطا می‌ایستاد</td>
+        </tr>
+        <tr>
+          <td><code>feedback_locked</code> آرگومان زائد می‌گرفت</td>
+          <td>ناهماهنگی خاموش میان کد و پرونده‌های نوشتار</td>
+        </tr>
+        <tr>
+          <td>۵۷ میلیون ردیف یتیم از آزمون کرش‌کرده در پایگاه داده</td>
+          <td>۲ گیگابایت فضای هدررفته (پاک شد؛ اکنون ۱۲۴ کیلوبایت)</td>
+        </tr>
+        <tr>
+          <td><code>spectral_contrast</code> با نرخ ۱۱۰۲۵ از نایکوئیست رد می‌شد</td>
+          <td>هیچ نشان آوایی ساخته نمی‌شد — کل لایهٔ فهم خاموش می‌ماند</td>
+        </tr>
+        <tr>
+          <td>پالودهٔ وزن، <b>پاسخ درست</b> را رد می‌کرد</td>
+          <td>روضه به‌درستی جدا می‌شد و بعد دور ریخته می‌شد؛ سبک از ۱۰۰٪ به ۷۵٪ افتاد</td>
+        </tr>
+        <tr>
+          <td><b>گمانه‌زن هر چه در گنجینه بود را می‌فرستاد</b> — تنها باگی که کاربر در کار واقعی دید</td>
+          <td>پس از یک بازجویی ناکام، تا دو نوای بی‌ربط خودکار فرستاده می‌شد. با گنجینهٔ بزرگ یعنی «همهٔ شورها» به هر جوینده</td>
+        </tr>
+        <tr>
+          <td>حساب صف با <b>حدس</b> نگه داشته می‌شد، نه با واقعیت</td>
+          <td>هر لغو در میانهٔ صف، یک واحد از شمارنده را برای همیشه جا می‌گذاشت. با چهل بار، <code>is_full</code> صف را همیشه پر نشان می‌داد و ربات <strong>هیچ بازجویی تازه‌ای نمی‌پذیرفت</strong> — بی‌آنکه کسی بفهمد چرا. در سوی دیگر، هر خطای رمزگشایی شمارنده را دوباره کم می‌کرد و به منفی می‌برد</td>
+        </tr>
+        <tr>
+          <td>هفده بار فایل چندمگابایتی فرو گرفته می‌شد تا در بارگذاری شکست بخورد</td>
+          <td>ربات به گروه نسخهٔ آراسته افزوده نشده بود. سنجشِ دسترسی <b>پس از</b> فرو گرفتن انجام می‌شد نه پیش از آن، پس هر نوا یک بار بی‌سبب فرو گرفته و برچسب زده می‌شد</td>
+        </tr>
+        <tr>
+          <td>مهلت‌های پیش‌فرضِ پنج‌ثانیه‌ای، برای پیوندی که از ایران می‌گذرد</td>
+          <td>هر بارگذاری فایل شکست می‌خورد. گزارش‌های یک شب: <code>NetworkError</code> ×۱۰، <code>ConnectError</code> ×۹، <code>TimedOut</code> ×۳</td>
+        </tr>
+        <tr>
+          <td><b>آزمون دود، نواهای راستینِ کاربران را پاک می‌کرد</b></td>
+          <td>پاک‌سازیِ پایانی‌اش بر پایهٔ <code>source='user'</code> بود، نه بر پایهٔ اینکه رکورد از آنِ آزمون باشد. یک بار برد. اکنون آزمون روی پایگاه دادهٔ یکبارمصرفِ خودش می‌رود و نگهبانی دارد که اگر آن جداسازی بشکند، پیش از هر نوشتنی می‌ایستد</td>
+        </tr>
+        <tr>
+          <td>آوای نماهنگ اینستاگرام تنها در شاخهٔ ناکامی استخراج می‌شد</td>
+          <td>وعدهٔ «با نواختن بر این آن نیست، آوا را می‌فرستیم» در بازجویی کامیاب شکستنی بود؛ نماهنگ اینستاگرام <code>file_id</code> ندارد که بعد بشود از آن دگربار استخراج کرد</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>زیر بار</h2>
+  <p class="sub">
+    از فهرست راستی‌آزمایی طرح، این تنها موردی بود که هنوز نزده بودم:
+    بیست بازجویی هم‌زمان، و اینکه ربات نباید قفل شود.
+  </p>
+
+  <div class="find">
+    <h3>ضربان‌سنج، نه گمان</h3>
+    <p>
+      آزمون بیست بازجویی را با هم می‌راند و ضربانی هر ۱۰ میلی‌ثانیه
+      می‌زند. اگر حلقهٔ رویداد بند بیاید، فاصلهٔ ضربان‌ها بالا می‌رود — و
+      همان، دقیقاً همان چیزی است که کاربر به شکل «ربات جواب نمی‌دهد»
+      می‌بیند.
+    </p>
+    <div class="ba">
+      <div><span class="lbl">درنگ میانه</span><span class="val">۱۵ م.ث</span></div>
+      <div class="after"><span class="lbl">صدک ۹۵</span><span class="val">۱۶–۳۱ م.ث</span></div>
+      <div><span class="lbl">هم‌زمانی</span><span class="val">هرگز از ۳ رد نشد</span></div>
+    </div>
+  </div>
+
+  <div class="find">
+    <h3>سنجیدنِ کار راستین، نه حلقهٔ ساختگی</h3>
+    <p>
+      نخست با حلقهٔ پایتونیِ خالص سنجیدم و صدک ۹۵ به ۱۱۰ میلی‌ثانیه رسید.
+      ولی آن، پاسخِ پرسشِ نادرست بود: هیچ‌یک از کارهای این صف پایتونیِ
+      خالص نیست. رمزگشایی زیرفرایند <code>ffmpeg</code> است و اثر
+      انگشت‌گیری numpy و scipy — هر سه قفل مفسر را رها می‌کنند، و
+      جفت‌سازی قله‌ها هم برداری نوشته شده نه با حلقه.
+    </p>
+    <p>
+      پس آزمون اکنون با <b>خودِ اثر انگشت‌گیری</b> داوری می‌کند و حالت
+      پایتونیِ خالص را تنها گزارش می‌کند — تا اگر روزی کاری پایتونی به
+      صف افزوده شد، اندازه‌اش پیش چشم باشد. و داوری بر صدک ۹۵ است نه بر
+      بیشینه؛ داوری بر بیشینه، آزمونی می‌سازد که با بخت می‌گذرد و با
+      بخت می‌افتد.
+    </p>
+  </div>
+
+  <div class="find">
+    <h3>و همین آزمون، سیزدهمین باگ را داد</h3>
+    <p>
+      حساب چشم‌به‌راهانِ صف با یک شرطِ حدسی نگه داشته می‌شد که پرسشی را
+      می‌پرسید که پاسخش را نمی‌دانست. هر لغو در میانهٔ صف، یک واحد را
+      <b>برای همیشه</b> جا می‌گذاشت؛ با چهل بار، ربات هیچ بازجویی تازه‌ای
+      نمی‌پذیرفت. و در سوی دیگر، هر خطای رمزگشایی — که در کار روزمره پیش
+      می‌آید — شمارنده را دوباره کم می‌کرد و به منفی می‌برد.
+    </p>
+    <p>
+      چاره حدس زدن نبود، دانستن بود: تنها کسی که نوبتش نرسیده هنوز
+      چشم‌به‌راه است.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>دو چیزی که باید بدانید</h2>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>موتور تنها «همان ضبط» را می‌یابد</h3>
+      <p>
+        اگر کاربر پاره‌ای از اجرای زنده بفرستد و شما نسخهٔ استودیویی همان
+        نوحه را داشته باشید، هیچ تطبیقی پیدا نمی‌شود — هرچند گوش انسان هر
+        دو را یک نوا بشمارد. این کاستی ذاتی روش اثر انگشت است، نه ایرادی
+        که با تنظیم درست شود. لایهٔ گمانه‌زنی برای همین ساخته شد.
+      </p>
+    </div>
+    <div class="card">
+      <h3>عدد دقت روی نواهای شما هنوز گرفته نشده</h3>
+      <p>
+        همهٔ سنجش‌ها با آوای ساختگی بودند. آوای ساختگی پژواک مجلس، صدای
+        جمعیت و فشرده‌سازی دست‌به‌دست ندارد. عدد راستین را تنها با نواهای
+        خودتان می‌توان دانست — و این تنها کار مهمی است که مانده.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>وقتی برگشتید، این پنج کار</h2>
+  <p class="sub">
+    به همین ترتیب. هر کدام چند دقیقه بیش نمی‌برد؛ جز گام پنجم.
+  </p>
+  <ol class="steps">
+    <li>
+      <h3>توکن را باطل کنید</h3>
+      <p>در <code>@BotFather</code>، سپس توکن تازه را در <code>.env</code> بنشانید.</p>
+    </li>
+    <li>
+      <h3>کارهای تلگرام</h3>
+      <p>
+        ربات را گردانندهٔ کانال و هر دو گروه کنید، و
+        <code>/setprivacy</code> را <b>Disable</b> بگذارید. بی این آخری،
+        ربات محتوایی را که پس از <code>/textall</code> می‌فرستید نمی‌بیند و
+        دو جریان خاموش می‌شکنند.
+      </p>
+      <p>
+        و ربات را به گروه <b>نسخهٔ آراسته و بایگانی‌شده</b> بیفزایید
+        (<code>ORNATE_GROUP_ID</code> در <code>.env</code>). اگر نکنید،
+        نسخه‌های برچسب‌خورده به گروه مداحی می‌روند و چیزی نمی‌شکند.
+      </p>
+    </li>
+    <li>
+      <h3>اجرا کنید</h3>
+      <p>
+        <code>python setup_project.py</code> سپس <code>python main.py</code>.
+        پیش‌پرواز خودش می‌گوید اگر چیزی کم باشد.
+      </p>
+    </li>
+    <li>
+      <h3>گنجینه را پر کنید</h3>
+      <p>
+        آسان‌ترین راه اکنون <code>/bulk</code> در گروه مداحی است: یک بار
+        بزنید و هر چند نوا که خواستید پشت سر هم بفرستید. یا نواها را در
+        کانال مخزن بگذارید تا خودکار نمایه شوند.
+      </p>
+      <p>
+        <b>یادآوری:</b> گمانه‌زنی زیر ۲۰ نوا خودبه‌خود خاموش است. تا آن
+        هنگام ربات تنها اثر انگشت را به کار می‌گیرد — و همان کارِ اصلی است.
+      </p>
+    </li>
+    <li>
+      <h3>دقت را روی نواهای خودتان بسنجید</h3>
+      <p>
+        <code>python tests/accuracy_real.py "D:\مسیر\مداحی‌ها"</code>.
+        اگر دقت پایین بود، <code>FAN_OUT_INDEX</code> را از ۳ به ۵ ببرید —
+        <b>ولی پیش از پر شدن گنجینه</b>، چون تغییرش یعنی نمایه‌سازی دوبارهٔ همه.
+      </p>
+    </li>
+  </ol>
+</section>
+
+<footer>
+  <div class="fl">🌿</div>
+  راهنمای کامل در <code>شروع کنید.md</code> و <code>README.md</code><br>
+  همهٔ نوشتارهای ربات در <code>texts/messages.yaml</code> — بی نیاز به دست بردن در کد
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var c=document.getElementById('peaks');if(!c)return;
+  var x=c.getContext('2d'),W=0,H=0,pts=[],links=[],t=0;
+  var still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function ink(){
+    // رنگ از توکن‌های همان تم گرفته می‌شود تا در هر دو تم درست بنشیند
+    var s=getComputedStyle(document.documentElement);
+    return {a:s.getPropertyValue('--accent').trim(),
+            c:s.getPropertyValue('--cypress').trim()};
+  }
+  function build(){
+    var r=c.getBoundingClientRect();
+    W=c.width=r.width*devicePixelRatio;H=c.height=r.height*devicePixelRatio;
+    x.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    W=r.width;H=r.height;pts=[];links=[];
+    // قله‌های طیف‌نگار: پراکنده در زمان، متمرکز در بسامدهای میانی
+    var n=Math.round(W*H/5400);
+    for(var i=0;i<n;i++){
+      var v=Math.pow(Math.random(),1.7);
+      pts.push({x:Math.random()*W, y:H*0.10+v*H*0.82,
+                r:0.9+Math.random()*1.5, p:Math.random()*Math.PI*2});
+    }
+    pts.sort(function(a,b){return a.x-b.x});
+    // جفت‌سازی لنگر با قله‌های پسین — همان کاری که موتور می‌کند
+    for(var j=0;j<pts.length-6;j+=7){
+      for(var k=1;k<=3;k++){
+        var q=pts[j+k*2];if(!q)continue;
+        var d=q.x-pts[j].x;
+        if(d>18&&d<190)links.push([pts[j],q]);
+      }
+    }
+  }
+  function draw(){
+    var col=ink();
+    x.clearRect(0,0,W,H);
+    x.lineWidth=0.7;x.strokeStyle=col.c;x.globalAlpha=0.16;
+    for(var i=0;i<links.length;i++){
+      var a=links[i][0],b=links[i][1];
+      var w=still?1:(0.5+0.5*Math.sin(t*0.6+a.x*0.012));
+      if(w<0.12)continue;
+      x.globalAlpha=0.16*w;
+      x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();
+    }
+    x.fillStyle=col.a;
+    for(var j=0;j<pts.length;j++){
+      var p=pts[j];
+      var s=still?1:(0.65+0.35*Math.sin(t*0.9+p.p));
+      x.globalAlpha=0.42*s;
+      x.beginPath();x.arc(p.x,p.y,p.r,0,6.2832);x.fill();
+    }
+    x.globalAlpha=1;
+  }
+  function loop(){t+=0.016;draw();requestAnimationFrame(loop)}
+  build();draw();
+  if(!still)loop();
+  addEventListener('resize',function(){build();draw()});
+})();
+</script>

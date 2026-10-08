@@ -1,0 +1,56 @@
+[Unit]
+# حدیث عشق — واحد systemd
+#
+# نصب:
+#   sudo cp deploy/hadis.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now hadis
+#
+# دیدن گزارش زنده:  journalctl -u hadis -f
+Description=Hadis-e Eshgh Telegram bot
+Documentation=file:///opt/hadis/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+# کاربر جدا، نه root. اگر نساخته‌اید:
+#   sudo useradd --system --home /opt/hadis --shell /usr/sbin/nologin hadis
+User=hadis
+Group=hadis
+WorkingDirectory=/opt/hadis
+
+# محیط مجازی — مسیر پایتونِ درونِ venv، نه پایتونِ سیستم.
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONIOENCODING=utf-8
+ExecStart=/opt/hadis/.venv/bin/python /opt/hadis/main.py
+
+# ── بازخیزی ──────────────────────────────────────────────────
+# ربات باید از هر افتادنی برخیزد. RestartSec می‌گذارد اگر ایراد
+# پایدار باشد (توکن باطل، شبکهٔ قطع) در چرخهٔ تند نیفتد.
+Restart=always
+RestartSec=10
+
+# اگر در ۵ دقیقه بیش از ۵ بار افتاد، بایست — یعنی ایراد
+# گذرا نیست و بازخیزی درمانش نمی‌کند. با systemctl reset-failed
+# دوباره راه می‌افتد.
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+# ── خاموشیِ آرام ─────────────────────────────────────────────
+# SIGINT همان چیزی است که python-telegram-bot برای خاموشیِ تمیز
+# می‌شناسد؛ SIGTERM خام، کار نیمه‌کاره را می‌بُرد.
+KillSignal=SIGINT
+TimeoutStopSec=30
+
+# ── سخت‌سازی ─────────────────────────────────────────────────
+# ربات جز پوشهٔ خودش به جایی نیاز ندارد.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/hadis/data /opt/hadis/logs /opt/hadis/tmp /opt/hadis/backups
+
+[Install]
+WantedBy=multi-user.target

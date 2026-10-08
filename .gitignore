@@ -1,0 +1,42 @@
+# اسرار — هرگز نباید منتشر شود
+.env
+*.session
+*.session-journal
+cookies.txt
+instagram_session*
+
+# داده و پایگاه داده
+data/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite3
+
+# گزارش‌ها
+logs/
+*.log
+
+# فایل‌های موقت رسانه
+tmp/
+downloads/
+cache/
+
+# پایتون
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ویرایشگر
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# ffmpegِ نصب‌شده به دستِ install.ps1 (وقتی winget نبود)
+tools/
+example/
+instagram_cookies.txt
+.env
