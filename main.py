@@ -15,7 +15,16 @@ from __future__ import annotations
 import asyncio
 import logging
 import sys
+import os
+for d in ["data", "logs", "tmp", "backups"]:
+    os.makedirs(d, exist_ok=True)
+import os
 
+cookies = os.getenv("INSTAGRAM_COOKIES")
+cookies_path = os.getenv("INSTAGRAM_COOKIES_FILE", "instagram_cookies.txt")
+if cookies:
+    with open(cookies_path, "w", encoding="utf-8") as f:
+        f.write(cookies)
 from telegram import Update
 from telegram.constants import ChatMemberStatus
 from telegram.error import InvalidToken, NetworkError, TelegramError
