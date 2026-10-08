@@ -396,7 +396,6 @@ def main() -> int:
     logger.info("  حدیث عشق — آغاز به کار")
     logger.info("═" * 50)
     restore_service.apply_pending()
-    database.init_db()
 
     database.init_db()
     logger.info("پایگاه داده آماده است: %s", config.database_path)
