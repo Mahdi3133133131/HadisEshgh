@@ -1,0 +1,27 @@
+# هرگز به ایمیج نرود
+.venv/
+venv/
+env/
+.env
+*.db
+*.db-wal
+*.db-shm
+*.sqlite3
+data/
+logs/
+tmp/
+downloads/
+cache/
+backups/
+__pycache__/
+*.py[cod]
+.git/
+.idea/
+.vscode/
+graphify-out/
+tests/
+example/
+tools/
+*.log
+instagram_cookies.txt
+cookies.txt
