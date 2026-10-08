@@ -199,7 +199,7 @@ def transcribe(
     samples: np.ndarray,
     source_rate: int,
     *,
-    model_size: str = "small",
+    model_size: str = "tiny",
     device: str = "cpu",
     compute_type: str = "int8",
     beam_size: int = 1,
