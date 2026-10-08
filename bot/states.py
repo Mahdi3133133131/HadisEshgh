@@ -62,6 +62,10 @@ AWAITING_TRACK_EDIT = "awaiting_track_edit"
 # پرسیدن مداح و سبک و نام، از آن پس کارِ «دفتر پذیرش» است.
 AWAITING_FILL_AUDIO = "awaiting_fill_audio"
 
+# بازیابی پایگاه داده از فایل پشتیبان — تنها در گروه مداحی و تنها
+# پس از `/restore`. بی این وضعیت، سندِ `.db` در گروه بی‌اعتبار است.
+AWAITING_RESTORE_FILE = "awaiting_restore_file"
+
 # دفتر پذیرش — یک جریان یگانه برای هر نوایی که گرداننده می‌افزاید:
 # افزودن انبوه، نوای بازفرستاده، و پر کردن بازجویی ناکام، هر سه از
 # همین وضعیت‌ها می‌گذرند. پیش از این هر کدام جریان جدای خود را
@@ -105,6 +109,7 @@ GROUP_ONLY_STATES = frozenset(
         AWAITING_BULK_AUDIO,
         AWAITING_DELETE_QUERY,
         AWAITING_FILL_AUDIO,
+        AWAITING_RESTORE_FILE,
     }
 )
 

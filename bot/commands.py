@@ -24,10 +24,11 @@
 جای داوری پیشکشِ همراهان است، و آمیختن این دو، هر دو را شلوغ
 می‌کرد.
 
-دستورهای مالک (افزودن گرداننده) در هیچ فهرستی نیستند. نه از سر
-پنهان‌کاری — کار می‌کنند اگر بزنید — بلکه چون تنها یک نفر در کل
-ربات به آن‌ها دسترسی دارد و نشاندنشان در فهرستِ همهٔ گردانندگان،
-دعوت به آزمودنِ چیزی است که برایشان کار نمی‌کند.
+دستورهای مالک در فهرستِ گروه مداحی نشان داده می‌شوند (`/addadmin`
+روشن و خواسته شد) ولی همچنان تنها مالک را می‌پذیرند؛ دو تایِ دیگر
+پنهان‌اند چون تنها یک نفر در کل ربات به آن‌ها دسترسی دارد و
+نشاندنشان در فهرستِ همه، دعوت به آزمودنِ چیزی است که برایشان کار
+نمی‌کند.
 """
 
 from __future__ import annotations
@@ -70,6 +71,8 @@ MADAHI_GROUP: tuple[tuple[str, str], ...] = (
     ("failures", "🔍 جست‌وجوهایی که به جایی نرسید"),
     ("wanted", "📋 پرخواسته‌ترین‌هایی که نداریم"),
     ("clean", "🧹 پاک کردن پیام‌های اضافهٔ ربات"),
+    ("restore", "♻️ بازیابی پایگاه داده از پشتیبان"),
+    ("addadmin", "👑 افزودن گرداننده (تنها مالک)"),
     ("alias", "🔤 نام‌های مستعار مداحان"),
     ("madahs", "🎤 مداحان و نواهایشان"),
     ("trust", "🤝 اعتماد به کاربر — پیشکشش داوری نمی‌خواهد"),
@@ -129,6 +132,74 @@ def _merge(*lists: tuple[tuple[str, str], ...]) -> tuple[tuple[str, str], ...]:
             seen.add(name)
             out.append((name, description))
     return tuple(out)
+
+
+# ── دامنه‌بندی: هر فرمان در کدام گفتگوها کار می‌کند ────────────
+#
+# ## چرا این هست
+#
+# پیش‌تر هر فرمانی در هر جایی ثبت شده بود: `/clean` در گفتگوی
+# خصوصی هم کار می‌کرد و هر کسی می‌توانست دستورهای گروه را در
+# خصوصی بزند. خواستهٔ روشن شد: فرمانِ گروه در گروه خودش، و
+# فرمانِ ناشناخته هیچ‌جا پاسخِ درست نگیرد.
+
+# در هر گفتگویی — چون یا برای همه‌جاست (`/cancel`) یا برای
+# یافتنِ شناسهٔ هر گروه تازه‌ای که ربات را به آن افزوده‌اند (`/id`).
+_EVERYWHERE = frozenset({"id", "cancel"})
+
+# در گفتگوی خصوصی، بی‌آنکه در فهرستِ خصوصی نشان داده شوند.
+# `/upload` و `/done` تنها برای همراهِ مورد اعتمادند و نمایششان
+# به همه گیج‌کننده است؛ `/madahs` اما هم برای گرداننده‌است هم
+# برای همراه، و فهرستِ خصوصی فقط دستورهای ساده را نشان می‌دهد.
+_EXTRA_PRIVATE = frozenset({"upload", "done", "madahs"})
+
+# فرمان‌های مالک که فهرستِ گروه مداحی نشانشان نمی‌دهد ولی در همان
+# گروه یا خصوصی (برای مالک) کار می‌کنند.
+_OWNER_TOOLS = frozenset({"deladmin", "admins"})
+
+# `/bulk` در هر دو گروهِ کاری رواست — دسته‌ای هم در گروه بایگانی
+# هم در گروه مداحی آغاز می‌شود (برای هم‌زمان کار کردن دو گرداننده).
+_EXTRA_KINDS: dict[str, tuple[str, ...]] = {
+    "bulk": ("archive", "madahi"),
+    "bulk_end": ("archive", "madahi"),
+    "addadmin": ("madahi",),
+    "deladmin": ("madahi",),
+    "admins": ("madahi",),
+}
+
+
+def allowed_chats(name: str) -> tuple[str, ...] | None:
+    """
+    دامنهٔ یک فرمان: «private» و نامِ گروه‌ها. `None` یعنی همه‌جا.
+
+    نامِ گروه‌ها: `archive` (گروه بایگانی)، `madahi`، `feedback`،
+    `users`. شناسهٔ راستین را مسیریاب از همین‌جا می‌سازد، پس اگر
+    ORNATE_GROUP_ID تنظیم نشده باشد همان گروه مداحی است — همان
+    قاعدهٔ `ornate_target`.
+    """
+    if name in _EVERYWHERE:
+        return None
+
+    kinds: list[str] = []
+    if any(n == name for n, _ in PRIVATE) or name in _EXTRA_PRIVATE:
+        kinds.append("private")
+    for pairs, kind in (
+        (ARCHIVE_GROUP, "archive"),
+        (MADAHI_GROUP, "madahi"),
+        (FEEDBACK_GROUP, "feedback"),
+        (USERS_GROUP, "users"),
+    ):
+        if any(n == name for n, _ in pairs) and kind not in kinds:
+            kinds.append(kind)
+    for kind in _EXTRA_KINDS.get(name, ()):
+        if kind not in kinds:
+            kinds.append(kind)
+    if name in _OWNER_TOOLS:
+        for kind in ("private", "madahi"):
+            if kind not in kinds:
+                kinds.append(kind)
+
+    return tuple(kinds) if kinds else None
 
 
 def _commands(pairs) -> list[BotCommand]:

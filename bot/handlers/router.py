@@ -30,6 +30,7 @@ from telegram.ext import (
 )
 
 from bot import states
+from bot import commands as command_lists
 from bot.handlers import (
     admin,
     archive,
@@ -56,6 +57,65 @@ logger = logging.getLogger(__name__)
 # پالایهٔ کانال‌های منبع. در `register()` ساخته می‌شود و از آن پس
 # `watch_source`/`unwatch_source` در جا بازش می‌کنند و می‌بندند.
 _source_filter = None
+
+
+# ── دامنه‌بندی فرمان‌ها ────────────────────────────────────────
+#
+# نامِ هر گروه به شناسهٔ راستینش می‌رسد. `ornate_target` خودش به
+# گروه مداحی فرو می‌ریزد، پس اگر ORNATE_GROUP_ID تنظیم نشده باشد
+# فرمان‌های گروه بایگانی همچنان در همان گروه مداحی کار می‌کنند.
+def _kind_chats() -> dict[str, int]:
+    """شناسه‌های تازه — پس از پیش‌پرواز، شکلِ `resolved` هم هست."""
+    from core import net
+
+    return {
+        "archive": net.resolved(config.ornate_target) or config.ornate_target,
+        "madahi": net.resolved(config.madahi_group_id) or config.madahi_group_id,
+        "feedback": net.resolved(config.feedback_group_id) or config.feedback_group_id,
+        "users": net.resolved(config.users_group_id) or config.users_group_id,
+    }
+
+# فرمانی که دامنه‌اش خالی است (شناسه‌ای تنظیم نشده) هیچ‌جا
+# نباید کار کند — نه اینکه بی‌قید همه‌جا.
+_NEVER = filters.COMMAND & ~filters.COMMAND
+
+
+def _scope_filter(name: str):
+    """
+    پالایهٔ گفتگو برای یک فرمان، از روی `bot/commands.allowed_chats`.
+
+    `None` یعنی فرمان در همه‌جا رواست (`/id`، `/cancel`)؛ وگرنه
+    اجتماعِ پالایه‌ها. فرمانی که اصلاً در فهرست‌ها نیست — مانند
+    دستورهای ناشناخته — اینجا ثبت نمی‌شود و به handler پایانی
+    می‌رسد که پاسخِ رد می‌دهد.
+    """
+    kinds = command_lists.allowed_chats(name)
+    if kinds is None:
+        return None
+
+    from core import net
+
+    kind_chats = _kind_chats()
+    clauses = []
+    ids: list[int] = []
+    for kind in kinds:
+        if kind == "private":
+            clauses.append(filters.ChatType.PRIVATE)
+            continue
+        chat_id = kind_chats.get(kind)
+        # شناسهٔ .env و گونهٔ کارآمدش هر دو: پیش‌پرواز پس از ثبت
+        # می‌دود، و تا آنگاه تنها گونهٔ خام شناخته شده است.
+        for candidate in ([chat_id] + net.variants(chat_id) if chat_id else []):
+            if candidate and candidate not in ids:
+                ids.append(candidate)
+    if ids:
+        clauses.append(filters.Chat(chat_id=ids))
+    if not clauses:
+        return _NEVER
+    clause = clauses[0]
+    for extra in clauses[1:]:
+        clause = clause | extra
+    return clause
 
 
 def watch_source(chat_id: int) -> bool:
@@ -94,12 +154,24 @@ async def _on_private_text_or_media(update, context) -> None:
     بازبینی «کاربر در چه وضعی است» را در یک جا نگه می‌دارد.
     """
     state = states.get_state(context.user_data)
+    message = update.effective_message
 
-    # وضعیت گروهی که به گفتگوی خصوصی نشت کرده — user_data برای هر
+    # وضعیتِ گروهی که به گفتگوی خصوصی نشت کرده — user_data برای هر
     # کاربر یکی است، نه برای هر گفتگو. اینجا معنایی ندارد.
+    #
+    # استثنا: اگر وضعیت برای **همین** گفتگو ساخته شده باشد (مانند
+    # `/upload` که بارگذاریِ دسته‌ایِ همراهِ مورد اعتماد است) پاک
+    # نمی‌شود. پیش‌تر همه پاک می‌شدند و همین بود که پس از `/trust`،
+    # کاربر `/upload` می‌زد ولی فرستادنِ انبوه هرگز راه نمی‌افتاد.
     if state in states.GROUP_ONLY_STATES:
-        states.clear_state(context.user_data)
-        state = None
+        owner = states.get_data(context.user_data).get("chat_id")
+        if (
+            owner is None
+            or message is None
+            or int(owner) != int(message.chat_id)
+        ):
+            states.clear_state(context.user_data)
+            state = None
 
     # اگر کاربر به جای نوشتن نام مداح، پارهٔ تازه‌ای بفرستد، پیداست
     # که بازجویی تازه‌ای می‌خواهد. خاموش ماندن اینجا — که پیش از
@@ -250,20 +322,32 @@ async def _on_group_message(update, context) -> None:
 
     if state == states.AWAITING_ADMIN_REPLY:
         await feedback.on_admin_reply(update, context)
+        return
     elif state == states.AWAITING_BROADCAST:
         await admin.on_broadcast_content(update, context)
+        return
     elif state == states.AWAITING_BULK_AUDIO:
         await curation.on_bulk_audio(update, context)
+        return
     elif state == states.AWAITING_DELETE_QUERY:
         await curation.on_delete_query(update, context)
+        return
     elif state == states.AWAITING_TRACK_EDIT:
         await curation.on_track_value(update, context)
+        return
     elif state == states.AWAITING_EDIT_VALUE:
         await submission.on_edit_value(update, context)
+        return
     elif state == states.AWAITING_FILL_AUDIO:
         await curation.on_fill_audio(update, context)
+        return
     elif state == states.AWAITING_CHANNEL_INPUT:
         await channel_admin.on_input(update, context)
+        return
+    elif state == states.AWAITING_RESTORE_FILE:
+        # `/restore` زده شده؛ این سندِ `.db`ای است که خواسته شد.
+        await restore.on_document(update, context)
+        return
 
 
 def register(app: Application) -> None:
@@ -273,74 +357,106 @@ def register(app: Application) -> None:
     _group_ids = [config.madahi_group_id, config.feedback_group_id]
     if config.ornate_group_id and config.ornate_group_id not in _group_ids:
         _group_ids.append(config.ornate_group_id)
+    # گونه‌های هم‌ارز شناسه هم: پیش‌پرواز پس از ثبت می‌دود و شکل
+    # کارآمد (`resolved`) را می‌یابد؛ تا آنگاه گونهٔ خام بس است و
+    # پس از آن، هر دو باید به ربات برسند.
+    from core import net as _net
+
+    _group_ids = [
+        _candidate
+        for _chat_id in list(_group_ids)
+        if _chat_id
+        for _candidate in _net.variants(_chat_id)
+    ] or _group_ids
     groups = filters.Chat(chat_id=_group_ids)
 
     # ── فرمان‌ها ────────────────────────────────────────────
-    app.add_handler(CommandHandler("start", start.start, filters=private))
-    app.add_handler(CommandHandler("help", menu.show_help, filters=private))
-    app.add_handler(CommandHandler("menu", menu.show_menu, filters=private))
+    #
+    # دامنهٔ هر فرمان از `bot/commands.allowed_chats` می‌آید: فرمانِ
+    # گروه در گروه خودش، فرمانِ خصوصی در خصوصی. فرمانِ ناشناخته یا
+    # فرمانِ گروه که در خصوصی زده شود، به handler پایانی می‌رسد و
+    # پاسخِ رد می‌گیرد — پیش‌تر همه جا بی‌قید کار می‌کردند.
+    def cmd(name: str, handler, **kwargs) -> None:
+        app.add_handler(
+            CommandHandler(name, handler, filters=_scope_filter(name), **kwargs)
+        )
+
+    cmd("start", start.start)
+    cmd("help", menu.show_help)
+    cmd("menu", menu.show_menu)
     # /cancel در گروه هم بایسته است: پذیرشِ نیمه‌کاره باید راه
     # بیرون آمدن داشته باشد، وگرنه گرداننده در گام «نام مداح»
     # می‌ماند و هر سخنش در گروه، نام نوا می‌شود.
-    app.add_handler(CommandHandler("cancel", _cancel))
+    cmd("cancel", _cancel)
 
-    app.add_handler(CommandHandler("stats", admin.stats))
-    app.add_handler(CommandHandler("engine", admin.engine))
-    app.add_handler(CommandHandler("failures", admin.failures))
-    app.add_handler(CommandHandler("wanted", admin.wanted))
-    app.add_handler(CommandHandler("clean", admin.clean))
-    app.add_handler(CommandHandler("alias", admin.alias))
+    cmd("stats", admin.stats)
+    cmd("engine", admin.engine)
+    cmd("failures", admin.failures)
+    cmd("wanted", admin.wanted)
+    cmd("clean", admin.clean)
+    cmd("alias", admin.alias)
     # `/madahs` هم برای گرداننده کار می‌کند و هم برای کاربر؛
     # خودِ گرداننده در `browse` سنجیده می‌شود، نه اینجا.
-    app.add_handler(CommandHandler("madahs", browse.show_madahs))
-    app.add_handler(CommandHandler("reindex", admin.reindex))
+    cmd("madahs", browse.show_madahs)
+    cmd("reindex", admin.reindex)
     # صوت‌هایی که نمایه نشدند — در گنجینه‌اند ولی موتور
     # نمی‌بیندشان.
-    app.add_handler(CommandHandler("broken", admin.broken))
-    app.add_handler(CommandHandler("textall", admin.begin_broadcast))
-    app.add_handler(CommandHandler("reload_texts", admin.reload_texts))
-    app.add_handler(CommandHandler("backup", admin.backup_now))
-    app.add_handler(CommandHandler("train", admin.train_classifier))
-    app.add_handler(CommandHandler("features", admin.features_status))
-    app.add_handler(CommandHandler("crawl", admin.crawl_status))
+    cmd("broken", admin.broken)
+    cmd("textall", admin.begin_broadcast)
+    cmd("reload_texts", admin.reload_texts)
+    cmd("backup", admin.backup_now)
+    cmd("train", admin.train_classifier)
+    cmd("features", admin.features_status)
+    cmd("crawl", admin.crawl_status)
 
-    # ── گردآوری گنجینه، در گروه مداحی ───────────────────────
-    app.add_handler(CommandHandler("bulk", curation.begin_bulk))
-    app.add_handler(CommandHandler("bulk_end", curation.end_bulk))
-    app.add_handler(CommandHandler("upload", curation.begin_upload))
-    app.add_handler(CommandHandler("done", curation.end_upload))
-    app.add_handler(CommandHandler("trust", curation.trust))
-    app.add_handler(CommandHandler("untrust", curation.untrust))
-    app.add_handler(CommandHandler("trusted", curation.trusted_list))
-    app.add_handler(CommandHandler("delete", curation.begin_delete))
+    # ── گردآوری گنجینه ─────────────────────────────────────
+    cmd("bulk", curation.begin_bulk)
+    cmd("bulk_end", curation.end_bulk)
+    cmd("upload", curation.begin_upload)
+    cmd("done", curation.end_upload)
+    cmd("trust", curation.trust)
+    cmd("untrust", curation.untrust)
+    cmd("trusted", curation.trusted_list)
+    cmd("delete", curation.begin_delete)
 
     # ── تنها از دست مالک ────────────────────────────────────
-    app.add_handler(CommandHandler("addadmin", curation.add_admin))
-    app.add_handler(CommandHandler("deladmin", curation.remove_admin))
-    app.add_handler(CommandHandler("admins", curation.list_admins))
-    app.add_handler(CommandHandler("health", admin.health))
+    cmd("addadmin", curation.add_admin)
+    cmd("deladmin", curation.remove_admin)
+    cmd("admins", curation.list_admins)
+    cmd("health", admin.health)
 
     # ── کانال‌ها، در زمان اجرا ──────────────────────────────
-    app.add_handler(CommandHandler("addchannel", channel_admin.add_required))
-    app.add_handler(CommandHandler("channels", channel_admin.list_required))
-    app.add_handler(CommandHandler("delchannel", channel_admin.remove_required))
-    app.add_handler(CommandHandler("addsource", channel_admin.add_source))
-    app.add_handler(CommandHandler("sources", channel_admin.list_sources))
-    app.add_handler(CommandHandler("delsource", channel_admin.remove_source))
+    cmd("addchannel", channel_admin.add_required)
+    cmd("channels", channel_admin.list_required)
+    cmd("delchannel", channel_admin.remove_required)
+    cmd("addsource", channel_admin.add_source)
+    cmd("sources", channel_admin.list_sources)
+    cmd("delsource", channel_admin.remove_source)
 
     # /id در هر گفتگویی کار می‌کند — گروهی که تازه ربات را به آن
     # افزوده‌اید هم. شناسه‌ای که می‌دهد، همان است که .env می‌خواهد.
-    app.add_handler(CommandHandler("id", admin.chat_id))
-    app.add_handler(CommandHandler("sites", admin.sites_status))
-        # بازیابی پایگاه داده — تنها مالک، تنها گفتگوی خصوصی
-    app.add_handler(
-        MessageHandler(
-            private
-            & filters.User(user_id=list(config.admin_ids[:1]))
-            & filters.Document.FileExtension("db"),
-            restore.on_document,
+    cmd("id", admin.chat_id)
+    cmd("sites", admin.sites_status)
+
+    # ── بازیابی پایگاه داده ─────────────────────────────────
+    #
+    # فرمان در گروه مداحی؛ فایلِ `.db` پس از آن می‌آید (وضعیت
+    # AWAITING_RESTORE_FILE). مسیرِ خصوصیِ مالک همچنان پابرجاست:
+    # همان‌جا فایل را بفرستد، بی‌نیاز از فرمان.
+    cmd("restore", restore.begin)
+    # پیش از intake: وگرنه فایلِ `.db` مالک در خصوصی نخست به
+    # `_on_private_text_or_media` می‌رسید و به چشم «پیشکش نوا»
+    # گرفته می‌شد. ترتیبِ ثبت در PTB همان ترتیبِ رسیدگی است.
+    _owner_ids = [int(v) for v in list(config.admin_ids[:1]) if v]
+    if _owner_ids:
+        app.add_handler(
+            MessageHandler(
+                private
+                & filters.User(user_id=_owner_ids)
+                & filters.Document.FileExtension("db"),
+                restore.on_document,
+            )
         )
-    )
     app.add_handler(CallbackQueryHandler(restore.on_choice, pattern="^rst:"))
 
     # ── دکمه‌های درون‌خطی ───────────────────────────────────
