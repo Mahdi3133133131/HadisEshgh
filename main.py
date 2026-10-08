@@ -30,6 +30,7 @@ from bot.handlers import router
 from config import config
 from core.db import database
 from core.logging_setup import setup_logging
+from services import restore as restore_service
 
 logger = logging.getLogger(__name__)
 
@@ -394,6 +395,8 @@ def main() -> int:
     logger.info("═" * 50)
     logger.info("  حدیث عشق — آغاز به کار")
     logger.info("═" * 50)
+    restore_service.apply_pending()
+    database.init_db()
 
     database.init_db()
     logger.info("پایگاه داده آماده است: %s", config.database_path)

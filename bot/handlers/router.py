@@ -40,6 +40,7 @@ from bot.handlers import (
     inline_query,
     intake,
     menu,
+    restore,
     search,
     start,
     submission,
@@ -331,6 +332,16 @@ def register(app: Application) -> None:
     # افزوده‌اید هم. شناسه‌ای که می‌دهد، همان است که .env می‌خواهد.
     app.add_handler(CommandHandler("id", admin.chat_id))
     app.add_handler(CommandHandler("sites", admin.sites_status))
+        # بازیابی پایگاه داده — تنها مالک، تنها گفتگوی خصوصی
+    app.add_handler(
+        MessageHandler(
+            private
+            & filters.User(user_id=list(config.admin_ids[:1]))
+            & filters.Document.FileExtension("db"),
+            restore.on_document,
+        )
+    )
+    app.add_handler(CallbackQueryHandler(restore.on_choice, pattern="^rst:"))
 
     # ── دکمه‌های درون‌خطی ───────────────────────────────────
     app.add_handler(
